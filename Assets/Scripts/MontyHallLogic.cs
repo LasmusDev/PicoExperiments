@@ -203,7 +203,7 @@ public class MontyHallLogic : MonoBehaviour
     }
     void UpdateWinText()
     {
-        GameObject.Find("Rate").GetComponent<TMP_Text>().text = $"{winCount / trialCount:#0.0}";
+        GameObject.Find("Rate").GetComponent<TMP_Text>().text = $"{(winCount / trialCount):#0.0}";
     }
     void Update()
     {
