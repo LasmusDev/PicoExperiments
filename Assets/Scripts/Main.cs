@@ -14,7 +14,7 @@ public class Main : DSingleton<Main>
     private int sceneIndex = 0;
     private bool menuIsDone;
     public static bool indexBool = true;
-    public Vector3 EyeTrackingDirectionAdjustment = Vector3.zero;
+    public List<Vector3> EyeTrackingDirectionAdjustment = new();
 
     private GameObject leftHandController;
     private GameObject rightHandController;
@@ -25,9 +25,9 @@ public class Main : DSingleton<Main>
 
     private void Start()
     {
-        avatar_id_dic.Add(1, "Avatar_boy");
-        avatar_id_dic.Add(2, "Avatar_jackfruit");
-        avatar_id_dic.Add(3, "Avatar_watermelon");
+        // avatar_id_dic.Add(1, "Avatar_boy");
+        // avatar_id_dic.Add(2, "Avatar_jackfruit");
+        // avatar_id_dic.Add(3, "Avatar_watermelon");
 
     }
     float delaytime;

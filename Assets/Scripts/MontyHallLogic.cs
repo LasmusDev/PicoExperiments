@@ -28,7 +28,7 @@ public class MontyHallLogic : MonoBehaviour
     int offerIndex;
     bool makeNewOffer;
     bool createDoorButtons = true;
-    int trialCount = 0;
+    float trialCount = 1e-6f;
     int winCount = 0;
 
     void Start()
@@ -42,7 +42,7 @@ public class MontyHallLogic : MonoBehaviour
     }
     void StartGame()
     {
-        trialCount += 1;
+        trialCount += 1f;
         makeNewOffer = true;
         InitializePrice();
         ShowChoiceUi();
@@ -203,7 +203,9 @@ public class MontyHallLogic : MonoBehaviour
     }
     void UpdateWinText()
     {
-        GameObject.Find("Rate").GetComponent<TMP_Text>().text = $"{(winCount / trialCount):#0.0}";
+        var winRate = (float)(winCount / trialCount);
+        print(winRate);
+        GameObject.Find("Rate").GetComponent<TMP_Text>().text = $"{winRate:#0.0}";
     }
     void Update()
     {
