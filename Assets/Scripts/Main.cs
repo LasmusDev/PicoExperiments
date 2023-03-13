@@ -14,7 +14,7 @@ public class Main : DSingleton<Main>
     private int sceneIndex = 0;
     private bool menuIsDone;
     public static bool indexBool = true;
-    public List<Vector3> EyeTrackingDirectionAdjustment = new();
+    public List<Vector3> EyeTrackingDirectionAdjustments = new();
 
     private GameObject leftHandController;
     private GameObject rightHandController;
