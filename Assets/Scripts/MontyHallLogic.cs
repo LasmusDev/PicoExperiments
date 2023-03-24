@@ -144,8 +144,8 @@ public class MontyHallLogic : MonoBehaviour
         headerText.text = headerText.text.Substring(0, headerText.text.Length - 1) + (char)(65 + choiceIndex);
 
         doors[offerIndex].Find("WallFront").gameObject.SetActive(true);
-        switchUi.Find("Buttons/Yes").GetComponent<Button>().onClick.AddListener(() => ShowChoiceUi());
-        switchUi.Find("Buttons/No").GetComponent<Button>().onClick.AddListener(() => ShowEvalUi());
+        switchUi.Find("Buttons/Yes").GetComponent<Button>().onClick.AddListener(() => ShowEvalUi());
+        switchUi.Find("Buttons/No").GetComponent<Button>().onClick.AddListener(() => ShowChoiceUi());
     }
     void ShowEvalUi()
     {

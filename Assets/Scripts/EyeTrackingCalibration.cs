@@ -15,6 +15,7 @@ public class EyeTrackingCalibration : MonoBehaviour
     public List<Transform> PositionList = new();
     private Transform gazePoint;
     private Transform target;
+    private GameObject completed;
 
     // Internals
     private Matrix4x4 matrix;
@@ -35,6 +36,9 @@ public class EyeTrackingCalibration : MonoBehaviour
         main = GameObject.Find("Main").GetComponent<Main>();
         target = GameObject.Find("target").transform;
         gazePoint = GameObject.Find("gazePoint").transform;
+
+        completed = GameObject.Find("Completed");
+        completed.SetActive(false);
 
         // initialize first index position
         main.EyeTrackingDirectionAdjustments.Add(Vector3.zero);
@@ -69,8 +73,9 @@ public class EyeTrackingCalibration : MonoBehaviour
                     }
                     else
                     {
-                        print("Calibration completed!");
-                        SceneManager.LoadScene(0);
+                        Debug.Log("Calibration completed!");
+                        completed.SetActive(true);
+                        StartCoroutine(GoMain());
                     }
                 }
                 else
@@ -78,6 +83,13 @@ public class EyeTrackingCalibration : MonoBehaviour
                     calibrate = true;
                     calibrationIdx = 0; // (re-)set calibration sample count
                 }
+            }
+
+            // Redo current calibration target
+            if (clickGuard <= 0f && (main.XR_GetKeyDown(XRNode.LeftHand, CommonUsages.triggerButton) || main.XR_GetKeyDown(XRNode.LeftHand, CommonUsages.triggerButton)))
+            {
+                    calibrate = true;
+                    calibrationIdx = 0; // (re-)set calibration sample count
             }
 
             if (Camera.main)
@@ -137,6 +149,11 @@ public class EyeTrackingCalibration : MonoBehaviour
                 OnEyeTrackingEvent?.Invoke(OriginOffset, DirectionOffset, hit);
             }
             yield return new WaitForSeconds(steptime);
+        }
+        IEnumerator GoMain(int sceneIndex=0, int delay=5)
+        {
+            yield return new WaitForSeconds(delay);
+            SceneManager.LoadScene(sceneIndex);
         }
     }
 }
