@@ -67,6 +67,14 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.pico.livepreview": {
+      "version": "file:../PICO Unity Live Preview Plugin (Experiment)",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.unity.xr.management": "4.0.0"
+      }
+    },
     "com.unity.render-pipelines.core": {
       "version": "12.1.10",
       "depth": 1,
@@ -171,6 +179,16 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.toolchain.win-x86_64-linux-x86_64": {
+      "version": "2.0.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.sysroot": "2.0.5",
+        "com.unity.sysroot.linux-x86_64": "2.0.4"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.ugui": {
       "version": "1.0.0",
       "depth": 0,
@@ -238,7 +256,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.picoxr": {
-      "version": "file:/home/weiss/unity/0_misc/PICO Unity IntegrationSDK-214-20230302",
+      "version": "file:../PICO Unity IntegrationSDK-214-20230302",
       "depth": 0,
       "source": "local",
       "dependencies": {

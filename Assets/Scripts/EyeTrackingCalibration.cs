@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.XR.PXR;
 using UnityEngine;
 using UnityEngine.XR;
+using UnityEngine.SceneManagement;
 
 public class EyeTrackingCalibration : MonoBehaviour
 {
@@ -69,6 +70,7 @@ public class EyeTrackingCalibration : MonoBehaviour
                     else
                     {
                         print("Calibration completed!");
+                        SceneManager.LoadScene(0);
                     }
                 }
                 else
@@ -91,7 +93,7 @@ public class EyeTrackingCalibration : MonoBehaviour
             PXR_EyeTracking.GetCombineEyeGazeVector(out Direction);
             var OriginOffset = matrix.MultiplyPoint(Origin);
             var DirectionOffset = matrix.MultiplyVector(Direction);
-            var DirectionAdjusted = Direction + main.EyeTrackingDirectionAdjustments[positionIndex];
+            var DirectionAdjusted = DirectionOffset + main.EyeTrackingDirectionAdjustments[positionIndex];
             if (result)
             {
                 Ray ray = new Ray(OriginOffset, DirectionAdjusted);
