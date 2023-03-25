@@ -23,7 +23,7 @@ public class EyeTrackingCalibration : MonoBehaviour
     // Internals
     private Matrix4x4 matrix;
     private bool calibrate = true;
-    private static int calibrationSampleCount = 15;
+    private static int calibrationSampleCount = 25;
     private Vector3[] calibrationSamples = new Vector3[calibrationSampleCount];
     private int calibrationIdx = 0; // sample index in the array
     float clickGuard = 0.0f;
@@ -47,7 +47,7 @@ public class EyeTrackingCalibration : MonoBehaviour
         target.SetParent(PositionList[positionIndex]);
         target.localPosition = Vector3.zero;
 
-        StartCoroutine(EyeRaycast(0.04f)); // default: 0.04 sec. = 24 FPS
+        StartCoroutine(EyeRaycast(0.01f)); // default: 0.04 sec. = 24 FPS
     }
     void Update()
     {
@@ -56,11 +56,11 @@ public class EyeTrackingCalibration : MonoBehaviour
 
         // shrink and grow target
         if (targetScaleReverse && target.localScale.x > 1)
-            target.localScale *= .9f;
+            target.localScale *= .98f;
         else if (targetScaleReverse && target.localScale.x <= 1)
             targetScaleReverse = false;
         else if (!targetScaleReverse && target.localScale.x < 2)
-            target.localScale *= 1.1f;
+            target.localScale *= 1.02f;
         else if (!targetScaleReverse && target.localScale.x >= 2)
             targetScaleReverse = true;
     }
