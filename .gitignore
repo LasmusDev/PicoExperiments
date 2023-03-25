@@ -64,5 +64,5 @@ sysinfo.txt
 crashlytics-build.properties
 
 UserSettings/
-experiment_BackUpThisFolder_ButDontShipItWithYourGame/
-experiment_BurstDebugInformation_DoNotShip/
+*_BackUpThisFolder_ButDontShipItWithYourGame/
+*_BurstDebugInformation_DoNotShip/
