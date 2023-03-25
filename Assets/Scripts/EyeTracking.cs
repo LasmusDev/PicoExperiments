@@ -43,33 +43,44 @@ public class EyeTracking : MonoBehaviour
             bool result = (PXR_EyeTracking.GetCombineEyeGazePoint(out Vector3 Origin) && PXR_EyeTracking.GetCombineEyeGazeVector(out Vector3 Direction));
             PXR_EyeTracking.GetCombineEyeGazePoint(out Origin);
             PXR_EyeTracking.GetCombineEyeGazeVector(out Direction);
-            var OriginOffset = matrix.MultiplyPoint(Origin);
-            var DirectionOffset = matrix.MultiplyVector(Direction);
 
+            // Find Adjustment Index
             var positionIndex = 0; // default position
+            var gazeVec = Origin + Direction;
+            var forwardPt = Origin + Vector3.forward;
+            var gazeDistance = (gazeVec - forwardPt).magnitude;
+            if (gazeDistance > 0.25)
+            {
+                if (gazeVec.x > 0 && gazeVec.y > 0) // top right
+                    positionIndex = 1;
+                else if (gazeVec.x < 0 && gazeVec.y > 0) // top left
+                    positionIndex = 2;
+                else if (gazeVec.x > 0 & gazeVec.y < 0) // bottom right
+                    positionIndex = 3;
+                else if (gazeVec.x < 0 & gazeVec.y < 0) // bottom left
+                    positionIndex = 4;
+            }
+            var DirectionAdjusted = Direction + main.EyeTrackingDirectionAdjustments[positionIndex];
+
+            var OriginOffset = matrix.MultiplyPoint(Origin);
+            var DirectionOffset = matrix.MultiplyVector(DirectionAdjusted);
+
 
             RaycastHit hit;
-            Ray ray = new Ray(OriginOffset, Direction); // unadjusted hit
-            if (Physics.Raycast(ray, out hit, 200))
-            {
-                // Determine position index
-                // see Calibration Routine List
-                // 0 center, 1 top right, 2 Top Left, 3 Bottom right 4 bottom left
-                // if gaze is approx. within circle radius in the middle of the screen (delta between origin and unadjusted cast)
-
-            }
-
-
-            var DirectionAdjusted = Direction + main.EyeTrackingDirectionAdjustments[positionIndex];
+            Ray ray = new Ray(OriginOffset, DirectionAdjusted);
             if (result)
             {
                 ray = new Ray(OriginOffset, DirectionAdjusted);
                 if (Physics.Raycast(ray, out hit, 200))
                 {
-                    if (ShowGazePoint)
+                    if (ShowGazePoint && gazePoint != null)
                     {
                         gazePoint.gameObject.SetActive(true);
                         gazePoint.DOMove(hit.point, steptime).SetEase(Ease.Linear);
+                    }
+                    else
+                    {
+                        gazePoint.gameObject.SetActive(false);
                     }
                 }
                 else
@@ -79,6 +90,7 @@ public class EyeTracking : MonoBehaviour
                 // Invoke logging event
                 OnEyeTrackingEvent?.Invoke(OriginOffset, DirectionOffset, hit);
             }
+
             yield return new WaitForSeconds(steptime);
         }
     }
