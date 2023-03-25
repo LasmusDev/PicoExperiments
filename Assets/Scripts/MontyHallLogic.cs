@@ -160,7 +160,7 @@ public class MontyHallLogic : MonoBehaviour
         foreach (Transform d in doors)
             d.Find("WallFront").gameObject.SetActive(false);
 
-        string winText = CheckWin() ? "You won!" : "You loose!";
+        string winText = CheckWin() ? "You won!" : "Unfortunately, you did not win!";
         Text modalText = evalUi.Find("ModalText").GetComponent<Text>();
         modalText.text = winText;
 

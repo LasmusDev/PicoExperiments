@@ -49,7 +49,7 @@ public class EyeTracking : MonoBehaviour
             var gazeVec = Origin + Direction;
             var forwardPt = Origin + Vector3.forward;
             var gazeDistance = (gazeVec - forwardPt).magnitude;
-            if (gazeDistance > 0.25)
+            if (gazeDistance > 0.2f)
             {
                 if (gazeVec.x > 0 && gazeVec.y > 0) // top right
                     positionIndex = 1;

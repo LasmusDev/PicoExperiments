@@ -23,7 +23,7 @@ public class EyeTrackingCalibration : MonoBehaviour
     // Internals
     private Matrix4x4 matrix;
     private bool calibrate = true;
-    private static int calibrationSampleCount = 9;
+    private static int calibrationSampleCount = 15;
     private Vector3[] calibrationSamples = new Vector3[calibrationSampleCount];
     private int calibrationIdx = 0; // sample index in the array
     float clickGuard = 0.0f;
@@ -106,9 +106,9 @@ public class EyeTrackingCalibration : MonoBehaviour
                         if (calibrationIdx < calibrationSampleCount)
                         {
                             var directionToTarget = (target.position - OriginOffset).normalized;
-
-                            // Save sample and increase index
-                            calibrationSamples[calibrationIdx] = directionToTarget;
+                            var directionToGazepoint = (gazePoint.position - OriginOffset).normalized;
+                            // Save sample
+                            calibrationSamples[calibrationIdx] = directionToTarget - directionToGazepoint;
                             calibrationIdx++;
                         }
                         else
@@ -119,18 +119,20 @@ public class EyeTrackingCalibration : MonoBehaviour
                                 meanCalibrationSample += calibrationSamples[i];
                             meanCalibrationSample /= calibrationSampleCount;
 
-                            // Difference between last adjustment and current adjustment
+                            // To calculate difference between last adjustment and current adjustment
                             var lastAdjustment = main.EyeTrackingDirectionAdjustments[positionIndex];
-                            main.EyeTrackingDirectionAdjustments[positionIndex] = meanCalibrationSample - Direction;
+
+                            main.EyeTrackingDirectionAdjustments[positionIndex] = meanCalibrationSample;
+
                             Debug.Log("TW: DirectionAdjustment " + main.EyeTrackingDirectionAdjustments[positionIndex]);
                             var deltaDirectionAdjustment = (main.EyeTrackingDirectionAdjustments[positionIndex] - lastAdjustment).magnitude;
                             Debug.Log("TW: DeltaDirectionAdjustment " + deltaDirectionAdjustment);
 
                             // Difference between mean "should be" direction and actual gaze direction.
                             var deltaShouldIs = (PositionList[positionIndex].position - gazePoint.position).magnitude;
-                            Debug.Log("TW: DeltaSouldIs " + deltaShouldIs);
+                            Debug.Log("TW: DeltaShouldIs " + deltaShouldIs);
 
-                            if ((deltaShouldIs < 0.01f) && (deltaDirectionAdjustment < 0.001f))
+                            if ((deltaShouldIs < 0.2f) && (deltaDirectionAdjustment < 0.01f))
                                 nextPosition = true;
                             else
                                 calibrationIdx = 0; // (re-)set calibration sample count
