@@ -25,7 +25,7 @@ public class EyeTracking : MonoBehaviour
     {
         main = GameObject.Find("Main").GetComponent<Main>();
         gazePoint = GameObject.Find("gazePoint").transform;
-        StartCoroutine(EyeRaycast(0.02f)); // default: 0.04 sec. = 24 FPS
+        StartCoroutine(EyeRaycast(0.04f)); // default: 0.04 sec. = 24 FPS
     }
 
     IEnumerator EyeRaycast(float steptime)
@@ -40,6 +40,7 @@ public class EyeTracking : MonoBehaviour
             {
                 matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one);
             }
+#if !UNITY_EDITOR
             bool result = (PXR_EyeTracking.GetCombineEyeGazePoint(out Vector3 Origin) && PXR_EyeTracking.GetCombineEyeGazeVector(out Vector3 Direction));
             PXR_EyeTracking.GetCombineEyeGazePoint(out Origin);
             PXR_EyeTracking.GetCombineEyeGazeVector(out Direction);
@@ -49,7 +50,7 @@ public class EyeTracking : MonoBehaviour
             var gazeVec = Origin + Direction;
             var forwardPt = Origin + Vector3.forward;
             var gazeDistance = (gazeVec - forwardPt).magnitude;
-            if (gazeDistance > 0.2f)
+            if (gazeDistance > 0.25f)
             {
                 if (gazeVec.x > 0 && gazeVec.y > 0) // top right
                     positionIndex = 1;
@@ -90,7 +91,7 @@ public class EyeTracking : MonoBehaviour
                 // Invoke logging event
                 OnEyeTrackingEvent?.Invoke(OriginOffset, DirectionOffset, hit);
             }
-
+#endif
             yield return new WaitForSeconds(steptime);
         }
     }

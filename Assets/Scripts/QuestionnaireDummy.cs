@@ -16,10 +16,10 @@ public class QuestionnaireDummy : MonoBehaviour
 
     void Questionnaire()
     {
-        var firstStage = Instantiate(defaultItem);
-        firstStage.transform.Find("HeaderText").GetComponent<TMP_Text>().text = "Test";
+        GameObject firstStage = Instantiate(defaultItem, defaultItem.transform.position, defaultItem.transform.rotation, transform);
         firstStage.SetActive(true);
-        firstStage.transform.Find("Submit").GetComponent<Button>().onClick.AddListener(() => Main.ChangeScene("00_Menu"));
+        firstStage.transform.Find("Header Text").GetComponent<TMP_Text>().text = "Test";
+        firstStage.transform.Find("Buttons/Submit").GetComponent<Button>().onClick.AddListener(() => Main.ChangeScene("00_Menu"));
     }
 
     void Update()

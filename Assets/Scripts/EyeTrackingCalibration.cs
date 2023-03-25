@@ -27,6 +27,7 @@ public class EyeTrackingCalibration : MonoBehaviour
     private Vector3[] calibrationSamples = new Vector3[calibrationSampleCount];
     private int calibrationIdx = 0; // sample index in the array
     float clickGuard = 0.0f;
+    bool targetScaleReverse = false;
 
     // Logging
     public event EyeTrackingEvent OnEyeTrackingEvent;
@@ -46,12 +47,22 @@ public class EyeTrackingCalibration : MonoBehaviour
         target.SetParent(PositionList[positionIndex]);
         target.localPosition = Vector3.zero;
 
-        StartCoroutine(EyeRaycast(0.02f)); // default: 0.04 sec. = 24 FPS
+        StartCoroutine(EyeRaycast(0.04f)); // default: 0.04 sec. = 24 FPS
     }
     void Update()
     {
         if (clickGuard > 0)
             clickGuard -= Time.deltaTime;
+
+        // shrink and grow target
+        if (targetScaleReverse && target.localScale.x > 1)
+            target.localScale *= .9f;
+        else if (targetScaleReverse && target.localScale.x <= 1)
+            targetScaleReverse = false;
+        else if (!targetScaleReverse && target.localScale.x < 2)
+            target.localScale *= 1.1f;
+        else if (!targetScaleReverse && target.localScale.x >= 2)
+            targetScaleReverse = true;
     }
 
     IEnumerator EyeRaycast(float steptime)
@@ -132,7 +143,7 @@ public class EyeTrackingCalibration : MonoBehaviour
                             var deltaShouldIs = (PositionList[positionIndex].position - gazePoint.position).magnitude;
                             Debug.Log("TW: DeltaShouldIs " + deltaShouldIs);
 
-                            if ((deltaShouldIs < 0.2f) && (deltaDirectionAdjustment < 0.01f))
+                            if ((deltaShouldIs < 0.1f) && (deltaDirectionAdjustment < 0.01f))
                                 nextPosition = true;
                             else
                                 calibrationIdx = 0; // (re-)set calibration sample count
