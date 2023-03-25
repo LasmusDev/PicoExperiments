@@ -28,7 +28,7 @@ public class Main : DSingleton<Main>
         if (((Input.GetKey(KeyCode.Escape) || (InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.menuButton, out menuIsDone) && menuIsDone) || (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.menuButton, out menuIsDone) && menuIsDone))) && SceneManager.GetSceneByBuildIndex(0) != SceneManager.GetActiveScene())
         {
             delaytime += Time.deltaTime;
-            if (delaytime >= 5)
+            if (delaytime >= 2)
             {
                 delaytime = 0;
                 if (SceneManager.GetActiveScene().name == "00_Menu")
@@ -79,5 +79,9 @@ public class Main : DSingleton<Main>
             XrKeydownIndexBool = true;
             return false;
         }
+    }
+    public static void ChangeScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }
