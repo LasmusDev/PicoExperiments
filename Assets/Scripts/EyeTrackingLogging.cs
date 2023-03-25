@@ -17,13 +17,15 @@ public class EyeTrackingLogging : MonoBehaviour
         "HMDPosition",
         "GazeDirection",
         "TargetPosition",
-        "TargetName", };
+        "TargetName", 
+    };
+    private int flushCounter = 0;
 
     void Start()
     {
-        EyeTrackingCalibration eyeRay = GetComponent<EyeTrackingCalibration>();
+        EyeTracking et = GetComponent<EyeTracking>();
         StartLogging();
-        eyeRay.OnEyeTrackingEvent += EyeRay_OnEyeTrackingEvent;
+        et.OnEyeTrackingEvent += EyeRay_OnEyeTrackingEvent;
 
     }
     private void EyeRay_OnEyeTrackingEvent(Vector3 origin, Vector3 direction, RaycastHit hit)
@@ -49,6 +51,13 @@ public class EyeTrackingLogging : MonoBehaviour
             line += values[i] + (i == (values.Length - 1) ? "" : ";"); // Do not add semicolon to last data string
         }
         writer.WriteLine(line);
+
+        flushCounter += 1;
+        if (flushCounter > 10)
+        {
+            writer.FlushAsync();
+            flushCounter = 0;
+        }
     }
 
     private void OnDestroy()
@@ -75,7 +84,7 @@ public class EyeTrackingLogging : MonoBehaviour
         writer = new StreamWriter(path);
 
         Log(columnNames);
-        Debug.Log("Log file started at: " + path);
+        Debug.Log("Eaw ET Log file started at: " + path);
     }
 
     private void StopLogging()
