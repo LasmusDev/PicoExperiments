@@ -25,25 +25,17 @@ public class EyeTracking : MonoBehaviour
     {
         main = GameObject.Find("Main").GetComponent<Main>();
         gazePoint = GameObject.Find("gazePoint").transform;
-        StartCoroutine(EyeRaycast(0.04f)); // default: 0.04 sec. = 24 FPS
+        StartCoroutine(EyeRaycast(0.01f)); // default: 0.04 sec. = 24 FPS
     }
 
     IEnumerator EyeRaycast(float steptime)
     {
         while (true)
         {
-            if (Camera.main)
-            {
-                matrix = Matrix4x4.TRS(Camera.main.transform.position, Camera.main.transform.rotation, Vector3.one);
-            }
-            else
-            {
-                matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one);
-            }
 #if !UNITY_EDITOR
-            bool result = (PXR_EyeTracking.GetCombineEyeGazePoint(out Vector3 Origin) && PXR_EyeTracking.GetCombineEyeGazeVector(out Vector3 Direction));
-            PXR_EyeTracking.GetCombineEyeGazePoint(out Origin);
-            PXR_EyeTracking.GetCombineEyeGazeVector(out Direction);
+            PXR_EyeTracking.GetHeadPosMatrix(out matrix);
+            PXR_EyeTracking.GetCombineEyeGazePoint(out Vector3 Origin);
+            PXR_EyeTracking.GetCombineEyeGazeVector(out Vector3 Direction);
 
             // Find Adjustment Index
             var positionIndex = 0; // default position
@@ -68,29 +60,27 @@ public class EyeTracking : MonoBehaviour
 
 
             RaycastHit hit;
-            Ray ray = new Ray(OriginOffset, DirectionAdjusted);
-            if (result)
+            Ray ray = new Ray(OriginOffset, DirectionOffset);
+            if (Physics.Raycast(ray, out hit, 200))
             {
-                ray = new Ray(OriginOffset, DirectionAdjusted);
-                if (Physics.Raycast(ray, out hit, 200))
+                if (ShowGazePoint && gazePoint != null)
                 {
-                    if (ShowGazePoint && gazePoint != null)
-                    {
-                        gazePoint.gameObject.SetActive(true);
-                        gazePoint.DOMove(hit.point, steptime).SetEase(Ease.Linear);
-                    }
-                    else
-                    {
-                        gazePoint.gameObject.SetActive(false);
-                    }
+                    gazePoint.gameObject.SetActive(true);
+                    // gazePoint.position = OriginOffset + (DirectionOffset * (hit.distance * .95f));
+                    print("hit distance " + hit.distance.ToString());
+                    gazePoint.position = OriginOffset + DirectionOffset;
                 }
                 else
                 {
                     gazePoint.gameObject.SetActive(false);
                 }
-                // Invoke logging event
-                OnEyeTrackingEvent?.Invoke(OriginOffset, DirectionOffset, hit);
             }
+            else
+            {
+                gazePoint.gameObject.SetActive(false);
+            }
+            // Invoke logging event
+            OnEyeTrackingEvent?.Invoke(OriginOffset, DirectionOffset, hit);
 #endif
             yield return new WaitForSeconds(steptime);
         }
