@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
+using LitJson;
 
 public class Main : DSingleton<Main>
 {
@@ -9,6 +11,13 @@ public class Main : DSingleton<Main>
     private bool menuIsDone;
     public static bool XrKeydownIndexBool = true;
     public List<Vector3> EyeTrackingDirectionAdjustments = new();
+    [System.Serializable]
+    public class EyeTrackingDirectionAdjustmentsSavedata
+    {
+        public List<Vector3> eyeTrackingDirectionAdjustments;
+    }
+
+
 
     private GameObject leftHandController;
     private GameObject rightHandController;
@@ -83,5 +92,30 @@ public class Main : DSingleton<Main>
     public static void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void SaveEyetrackingCalibration(string savefile = "et_calibration_settings.json")
+    {
+        string path = Application.persistentDataPath + "/" + savefile;
+        EyeTrackingDirectionAdjustmentsSavedata data = new EyeTrackingDirectionAdjustmentsSavedata();
+        data.eyeTrackingDirectionAdjustments = EyeTrackingDirectionAdjustments;
+
+        string json = JsonUtility.ToJson(data);
+
+        File.WriteAllText(path, json);
+        print($"Saving {path} successful");
+    }
+    public void LoadEyetrackingCalibration(string savefile = "et_calibration_settings.json")
+    {
+        string path = Application.persistentDataPath + "/" + savefile;
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            EyeTrackingDirectionAdjustmentsSavedata data = JsonUtility.FromJson<EyeTrackingDirectionAdjustmentsSavedata>(json);
+
+            EyeTrackingDirectionAdjustments = data.eyeTrackingDirectionAdjustments;
+
+            print($"Loading {path} successful");
+        }
     }
 }

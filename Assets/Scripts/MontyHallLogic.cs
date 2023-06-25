@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MontyHallLogic : MonoBehaviour
 {
@@ -164,8 +165,8 @@ public class MontyHallLogic : MonoBehaviour
         Text modalText = evalUi.Find("ModalText").GetComponent<Text>();
         modalText.text = winText;
 
-        evalUi.Find("Buttons/Yes").GetComponent<Button>().onClick.AddListener(() => StartGame());
-        // switchUi.Find("No").GetComponent<Button>().onClick.AddListener(() => ShowChoiceUi());
+        evalUi.Find("Buttons/Repeat").GetComponent<Button>().onClick.AddListener(() => StartGame());
+        evalUi.Find("Buttons/Exit").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene("00_Menu"));
     }
     void StartUiDoorButtonClicked(int buttonNo)
     {

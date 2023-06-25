@@ -10,4 +10,5 @@ flowchart TD;
     SwitchUi -->|Yes| ChoiceUi
     SwitchUi -->|No| EvalUi
     EvalUi -->|Repeat| StartGame
+    EvalUi --> End
 ```

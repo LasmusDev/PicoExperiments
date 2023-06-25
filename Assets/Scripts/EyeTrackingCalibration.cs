@@ -24,11 +24,12 @@ public class EyeTrackingCalibration : MonoBehaviour
     // Internals
     private Matrix4x4 matrix;
     private bool calibrate = false;
-    private static int calibrationSampleCount = 100;
+    private static int calibrationSampleCount = 50;
     private Vector3[] calibrationSamples = new Vector3[calibrationSampleCount];
     private int calibrationIdx = 0; // sample index in the array
     float clickGuard = 0.0f;
     bool targetScaleReverse = false;
+    public float targetThreshold = 0.05f; // threshold for single dots
 
     void Start()
     {
@@ -92,9 +93,9 @@ public class EyeTrackingCalibration : MonoBehaviour
             PXR_EyeTracking.GetHeadPosMatrix(out matrix);
             PXR_EyeTracking.GetCombineEyeGazePoint(out Vector3 Origin);
             PXR_EyeTracking.GetCombineEyeGazeVector(out Vector3 Direction);
-            var DirectionAdjusted = Direction + main.EyeTrackingDirectionAdjustments[positionIndex];
-            var OriginOffset = matrix.MultiplyPoint(Origin);
-            var DirectionOffset = matrix.MultiplyVector(DirectionAdjusted);
+            Vector3 DirectionAdjusted = Direction + main.EyeTrackingDirectionAdjustments[positionIndex];
+            Vector3 OriginOffset = matrix.MultiplyPoint(Origin);
+            Vector3 DirectionOffset = matrix.MultiplyVector(DirectionAdjusted);
 
             Ray ray = new Ray(OriginOffset, DirectionOffset);
             RaycastHit hit;
@@ -125,15 +126,15 @@ public class EyeTrackingCalibration : MonoBehaviour
 
                     main.EyeTrackingDirectionAdjustments[positionIndex] += meanCalibrationSample;
 
-                    Debug.Log("TW: DirectionAdjustment " + main.EyeTrackingDirectionAdjustments[positionIndex]);
+                    // Debug.Log("TW: DirectionAdjustment " + main.EyeTrackingDirectionAdjustments[positionIndex]);
                     var deltaDirectionAdjustment = (main.EyeTrackingDirectionAdjustments[positionIndex] - lastAdjustment).magnitude;
-                    Debug.Log("TW: DeltaDirectionAdjustment " + deltaDirectionAdjustment);
+                    // Debug.Log("TW: DeltaDirectionAdjustment " + deltaDirectionAdjustment);
 
                     // Difference between mean "should be" direction and actual gaze direction.
                     var deltaShouldIs = (PositionList[positionIndex].position - gazePoint.position).magnitude;
-                    Debug.Log("TW: DeltaShouldIs " + deltaShouldIs);
+                    // Debug.Log("TW: DeltaShouldIs " + deltaShouldIs);
 
-                    if ((deltaShouldIs < 0.025f) && (deltaDirectionAdjustment < 0.025f))
+                    if ((deltaShouldIs < targetThreshold) && (deltaDirectionAdjustment < targetThreshold))
                         nextPosition = true;
                     else
                         calibrationIdx = 0; // (re-)set calibration sample count
@@ -147,12 +148,12 @@ public class EyeTrackingCalibration : MonoBehaviour
         }
 
     }
-    IEnumerator GoMain(int sceneIndex = 0, int delay = 5)
+    IEnumerator GoMain(int sceneIndex = 0, int delay = 3)
     {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(sceneIndex);
     }
-    IEnumerator DelayCalibration(int delay = 5)
+    IEnumerator DelayCalibration(int delay = 3)
     {
         yield return new WaitForSeconds(delay);
         welcome.SetActive(false);

@@ -61,14 +61,13 @@ public class EyeTracking : MonoBehaviour
 
             RaycastHit hit;
             Ray ray = new Ray(OriginOffset, DirectionOffset);
-            if (Physics.Raycast(ray, out hit, 200))
+            if (Physics.Raycast(ray, out hit, 20))
             {
                 if (ShowGazePoint && gazePoint != null)
                 {
                     gazePoint.gameObject.SetActive(true);
-                    // gazePoint.position = OriginOffset + (DirectionOffset * (hit.distance * .95f));
+                    gazePoint.DOMove(hit.point, steptime).SetEase(Ease.Linear);
                     print("hit distance " + hit.distance.ToString());
-                    gazePoint.position = OriginOffset + DirectionOffset;
                 }
                 else
                 {
