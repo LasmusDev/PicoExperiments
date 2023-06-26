@@ -1,4 +1,8 @@
-﻿using DG.Tweening;
+﻿using System.Diagnostics;
+using System.Net.Http;
+using System.Net.WebSockets;
+using System.Net;
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -66,8 +70,9 @@ public class EyeTracking : MonoBehaviour
                 if (ShowGazePoint && gazePoint != null)
                 {
                     gazePoint.gameObject.SetActive(true);
-                    gazePoint.DOMove(hit.point, steptime).SetEase(Ease.Linear);
-                    print("hit distance " + hit.distance.ToString());
+                    gazePoint.transform.position = hit.point;
+                    Debug.Log("TW: gaze dot position", gazePoint.transform.position);
+                    print("TW: hit distance " + hit.distance.ToString());
                 }
                 else
                 {

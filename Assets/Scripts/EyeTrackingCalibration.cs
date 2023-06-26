@@ -126,13 +126,13 @@ public class EyeTrackingCalibration : MonoBehaviour
 
                     main.EyeTrackingDirectionAdjustments[positionIndex] += meanCalibrationSample;
 
-                    // Debug.Log("TW: DirectionAdjustment " + main.EyeTrackingDirectionAdjustments[positionIndex]);
+                    Debug.Log("TW: DirectionAdjustment " + main.EyeTrackingDirectionAdjustments[positionIndex]);
                     var deltaDirectionAdjustment = (main.EyeTrackingDirectionAdjustments[positionIndex] - lastAdjustment).magnitude;
-                    // Debug.Log("TW: DeltaDirectionAdjustment " + deltaDirectionAdjustment);
+                    Debug.Log("TW: DeltaDirectionAdjustment " + deltaDirectionAdjustment);
 
                     // Difference between mean "should be" direction and actual gaze direction.
                     var deltaShouldIs = (PositionList[positionIndex].position - gazePoint.position).magnitude;
-                    // Debug.Log("TW: DeltaShouldIs " + deltaShouldIs);
+                    Debug.Log("TW: DeltaShouldIs " + deltaShouldIs);
 
                     if ((deltaShouldIs < targetThreshold) && (deltaDirectionAdjustment < targetThreshold))
                         nextPosition = true;

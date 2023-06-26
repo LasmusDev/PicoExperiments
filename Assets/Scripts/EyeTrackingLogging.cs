@@ -84,7 +84,7 @@ public class EyeTrackingLogging : MonoBehaviour
         writer = new StreamWriter(path);
 
         Log(columnNames);
-        Debug.Log("Eaw ET Log file started at: " + path);
+        Debug.Log("Raw ET Log file started at: " + path);
     }
 
     private void StopLogging()

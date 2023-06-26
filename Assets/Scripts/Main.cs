@@ -3,7 +3,6 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
-using LitJson;
 
 public class Main : DSingleton<Main>
 {
@@ -103,7 +102,7 @@ public class Main : DSingleton<Main>
         string json = JsonUtility.ToJson(data);
 
         File.WriteAllText(path, json);
-        print($"Saving {path} successful");
+        print($"Saving calibraiton data to {path} successful");
     }
     public void LoadEyetrackingCalibration(string savefile = "et_calibration_settings.json")
     {
@@ -115,7 +114,7 @@ public class Main : DSingleton<Main>
 
             EyeTrackingDirectionAdjustments = data.eyeTrackingDirectionAdjustments;
 
-            print($"Loading {path} successful");
+            print($"Loading calibration data from {path} successful");
         }
     }
 }
