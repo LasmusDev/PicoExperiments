@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
+using TMPro;
 
 public class Main : DSingleton<Main>
 {
@@ -21,6 +22,10 @@ public class Main : DSingleton<Main>
     private GameObject leftHandController;
     private GameObject rightHandController;
 
+    private GameObject statusGo;
+
+    private StreamWriter writer = null;
+
     float delaytime;
     protected override void Awake()
     {
@@ -29,6 +34,8 @@ public class Main : DSingleton<Main>
 
     private void Start()
     {
+        statusGo = GameObject.Find("Status");
+        statusGo.SetActive(false);
     }
     void Update()
     {
@@ -95,18 +102,24 @@ public class Main : DSingleton<Main>
 
     public void SaveEyetrackingCalibration(string savefile = "et_calibration_settings.json")
     {
-        string path = Application.persistentDataPath + "/" + savefile;
+        string path = Application.persistentDataPath + "/Recordings/";
+        Directory.CreateDirectory(path);
+        path = path + savefile;
         EyeTrackingDirectionAdjustmentsSavedata data = new EyeTrackingDirectionAdjustmentsSavedata();
         data.eyeTrackingDirectionAdjustments = EyeTrackingDirectionAdjustments;
 
         string json = JsonUtility.ToJson(data);
 
-        File.WriteAllText(path, json);
-        print($"Saving calibraiton data to {path} successful");
+        writer = new StreamWriter(path);
+        writer.WriteLine(json);
+        writer.Flush();
+        writer.Close();
+
+        ChangeStatusMessage($"Saving calibraiton data to {path} successful");
     }
     public void LoadEyetrackingCalibration(string savefile = "et_calibration_settings.json")
     {
-        string path = Application.persistentDataPath + "/" + savefile;
+        string path = Application.persistentDataPath + "/Recordings/";
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
@@ -114,7 +127,18 @@ public class Main : DSingleton<Main>
 
             EyeTrackingDirectionAdjustments = data.eyeTrackingDirectionAdjustments;
 
-            print($"Loading calibration data from {path} successful");
+            ChangeStatusMessage($"Loading calibraiton data to {path} successful");
         }
     }
+    public void ChangeStatusMessage(string status_msg)
+    {
+        print(status_msg);
+        statusGo.SetActive(true);
+        statusGo.GetComponent<TextMeshProUGUI>().text = status_msg;
+        Invoke("HideStatus", 5);
+    }
+
+    public void HideStatus() => statusGo.SetActive(false);
+
+    public void TestStatus() => ChangeStatusMessage("Test");
 }
