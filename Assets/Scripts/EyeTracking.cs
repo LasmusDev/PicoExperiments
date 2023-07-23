@@ -1,4 +1,6 @@
-﻿using DG.Tweening;
+﻿using System.Net.WebSockets;
+using System.Net;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.XR.PXR;
@@ -22,8 +24,10 @@ public class EyeTracking : MonoBehaviour
 
     void Start()
     {
-        main = GameObject.Find("Main").GetComponent<Main>();
+        main = DSingleton<Main>.Instance;
         gazePoint = GameObject.Find("gazePoint").transform;
+        SaveLoadCalibration saveLoadCalibration = gameObject.AddComponent<SaveLoadCalibration>();
+        saveLoadCalibration.LoadEyetrackingCalibration();
         StartCoroutine(EyeRaycast(0.01f)); // default: 0.04 sec. = 24 FPS
     }
 
@@ -37,7 +41,7 @@ public class EyeTracking : MonoBehaviour
             PXR_EyeTracking.GetCombineEyeGazeVector(out Vector3 Direction);
 
             // Find Adjustment Index
-            var positionIndex = 0; // default position
+            var positionIndex = 0; // default position (center)
             var gazeVec = Origin + Direction;
             var forwardPt = Origin + Vector3.forward;
             var gazeDistance = (gazeVec - forwardPt).magnitude;
@@ -52,7 +56,12 @@ public class EyeTracking : MonoBehaviour
                 else if (gazeVec.x < 0 & gazeVec.y < 0) // bottom left
                     positionIndex = 4;
             }
-            var DirectionAdjusted = Direction + main.EyeTrackingDirectionAdjustments[positionIndex];
+            
+            var DirectionAdjusted = Direction;
+            if (main.EyeTrackingDirectionAdjustments.Count > 0)
+            {
+                DirectionAdjusted += main.EyeTrackingDirectionAdjustments[positionIndex];
+            }
 
             var OriginOffset = matrix.MultiplyPoint(Origin);
             var DirectionOffset = matrix.MultiplyVector(DirectionAdjusted);
@@ -66,7 +75,7 @@ public class EyeTracking : MonoBehaviour
                 {
                     gazePoint.gameObject.SetActive(true);
                     gazePoint.transform.position = hit.point;
-                    Debug.Log("TW: gaze dot position" + gazePoint.transform.position.ToString());
+                    Debug.Log($"TW: gaze dot position {gazePoint.transform.position.ToString()} name {hit.transform.name.ToString()}");
                     Debug.Log("TW: hit distance " + hit.distance.ToString());
                 }
                 else

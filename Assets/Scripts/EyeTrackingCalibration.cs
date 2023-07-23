@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class EyeTrackingCalibration : MonoBehaviour
 {
     private Main main; // Main singleton
+    public bool hideGazeDot;
 
     // Positions
     public List<Transform> PositionList;
@@ -33,7 +34,7 @@ public class EyeTrackingCalibration : MonoBehaviour
 
     void Start()
     {
-        main = GameObject.Find("Main").GetComponent<Main>();
+        main = DSingleton<Main>.Instance;
         target = GameObject.Find("target").transform;
         gazePoint = GameObject.Find("gazePoint").transform;
         gazePoint.gameObject.SetActive(false);
@@ -86,6 +87,7 @@ public class EyeTrackingCalibration : MonoBehaviour
                     Debug.Log("Calibration completed!");
                     calibrate = false;
                     completed.SetActive(true);
+                    GetComponent<SaveLoadCalibration>().SaveEyetrackingCalibration();
                     StartCoroutine(GoMain());
                 }
             }
@@ -101,7 +103,7 @@ public class EyeTrackingCalibration : MonoBehaviour
             RaycastHit hit;
             if (calibrate && Physics.Raycast(ray, out hit, 25))
             {
-                gazePoint.gameObject.SetActive(true);
+                if (!hideGazeDot) gazePoint.gameObject.SetActive(true);
                 gazePoint.DOMove(hit.point, steptime).SetEase(Ease.Linear);
 
                 if (calibrationIdx < calibrationSampleCount)
@@ -151,7 +153,7 @@ public class EyeTrackingCalibration : MonoBehaviour
     IEnumerator GoMain(int sceneIndex = 0, int delay = 3)
     {
         yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene(sceneIndex);
+        Main.ChangeScene(sceneIndex);
     }
     IEnumerator DelayCalibration(int delay = 3)
     {

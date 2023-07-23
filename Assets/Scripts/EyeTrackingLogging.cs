@@ -9,15 +9,16 @@ public class EyeTrackingLogging : MonoBehaviour
 {
     // Logging
     private bool logging = false;
-    private static int logSize = 5;
+    private static int logSize = 6;
     private string[] logData = new string[logSize];
     private StreamWriter writer = null;
     private static readonly string[] columnNames = {
         "DateTime",
         "HMDPosition",
         "GazeDirection",
+        "HitPoint",
         "TargetPosition",
-        "TargetName", 
+        "TargetName",
     };
     private int flushCounter = 0;
 
@@ -33,8 +34,9 @@ public class EyeTrackingLogging : MonoBehaviour
         logData[0] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
         logData[1] = origin.ToString();
         logData[2] = direction.ToString();
-        logData[3] = hit.transform.position.ToString();
-        logData[4] = hit.transform.name.ToString();
+        logData[3] = hit.point.ToString();
+        logData[4] = hit.transform == null ? "" : hit.transform.position.ToString();
+        logData[5] = hit.transform == null ? "" : hit.transform.name.ToString();
 
         Log(logData);
     }
@@ -75,7 +77,7 @@ public class EyeTrackingLogging : MonoBehaviour
         logging = true;
 
         string logPath = Application.persistentDataPath + "/Recordings/";
-        Directory.CreateDirectory(logPath);
+        if (!Directory.Exists(logPath)) Directory.CreateDirectory(logPath);
 
         DateTime now = DateTime.Now;
         string fileName = string.Format("{0}-{1:00}-{2:00}-{3:00}h{4:00}m-{5}-raw-et-data", now.Year, now.Month, now.Day, now.Hour, now.Minute, SceneManager.GetActiveScene().name);

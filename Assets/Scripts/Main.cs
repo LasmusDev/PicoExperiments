@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,21 +23,12 @@ public class Main : DSingleton<Main>
     private GameObject leftHandController;
     private GameObject rightHandController;
 
-    private GameObject statusGo;
-
-    private StreamWriter writer = null;
-
     float delaytime;
     protected override void Awake()
     {
         base.Awake();
     }
 
-    private void Start()
-    {
-        statusGo = GameObject.Find("Status");
-        statusGo.SetActive(false);
-    }
     void Update()
     {
         //Long Press Menu Button
@@ -47,9 +39,9 @@ public class Main : DSingleton<Main>
             {
                 delaytime = 0;
                 if (SceneManager.GetActiveScene().name == "00_Menu")
-                    SceneManager.LoadScene("Calibration");
+                    ChangeScene("Calibration");
                 else
-                    SceneManager.LoadScene(0);
+                    ChangeScene(0);
             }
         }
     }
@@ -97,48 +89,12 @@ public class Main : DSingleton<Main>
     }
     public static void ChangeScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        Debug.Log($"Changing scene to {sceneName}");
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
-
-    public void SaveEyetrackingCalibration(string savefile = "et_calibration_settings.json")
+    public static void ChangeScene(int sceneId)
     {
-        string path = Application.persistentDataPath + "/Recordings/";
-        Directory.CreateDirectory(path);
-        path = path + savefile;
-        EyeTrackingDirectionAdjustmentsSavedata data = new EyeTrackingDirectionAdjustmentsSavedata();
-        data.eyeTrackingDirectionAdjustments = EyeTrackingDirectionAdjustments;
-
-        string json = JsonUtility.ToJson(data);
-
-        writer = new StreamWriter(path);
-        writer.WriteLine(json);
-        writer.Flush();
-        writer.Close();
-
-        ChangeStatusMessage($"Saving calibraiton data to {path} successful");
+        Debug.Log($"Changing scene to {sceneId.ToString()}");
+        SceneManager.LoadScene(sceneId, LoadSceneMode.Single);
     }
-    public void LoadEyetrackingCalibration(string savefile = "et_calibration_settings.json")
-    {
-        string path = Application.persistentDataPath + "/Recordings/";
-        if (File.Exists(path))
-        {
-            string json = File.ReadAllText(path);
-            EyeTrackingDirectionAdjustmentsSavedata data = JsonUtility.FromJson<EyeTrackingDirectionAdjustmentsSavedata>(json);
-
-            EyeTrackingDirectionAdjustments = data.eyeTrackingDirectionAdjustments;
-
-            ChangeStatusMessage($"Loading calibraiton data to {path} successful");
-        }
-    }
-    public void ChangeStatusMessage(string status_msg)
-    {
-        print(status_msg);
-        statusGo.SetActive(true);
-        statusGo.GetComponent<TextMeshProUGUI>().text = status_msg;
-        Invoke("HideStatus", 5);
-    }
-
-    public void HideStatus() => statusGo.SetActive(false);
-
-    public void TestStatus() => ChangeStatusMessage("Test");
 }
