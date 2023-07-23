@@ -12,7 +12,7 @@ public class SaveLoadCalibration : MonoBehaviour
     {
         // if (statusGo == null) statusGo = GameObject.Find("Status");
         // statusGo.GetComponent<TextMeshProUGUI>().text = "";
-        main = DSingleton<Main>.Instance;
+        main = GameObject.Find("Main").GetComponent<Main>();
     }
     public void SaveEyetrackingCalibration(string savefile = "et_calibration_settings.json")
     {
@@ -47,7 +47,9 @@ public class SaveLoadCalibration : MonoBehaviour
         try
         {
             string json = File.ReadAllText(configPath);
-            Main.EyeTrackingDirectionAdjustmentsSavedata data = JsonUtility.FromJson<Main.EyeTrackingDirectionAdjustmentsSavedata>(json);
+            Main.EyeTrackingDirectionAdjustmentsSavedata data = new Main.EyeTrackingDirectionAdjustmentsSavedata();
+            data = JsonUtility.FromJson<Main.EyeTrackingDirectionAdjustmentsSavedata>(json);
+            print(data.eyeTrackingDirectionAdjustments.ToString());
 
             main.EyeTrackingDirectionAdjustments = data.eyeTrackingDirectionAdjustments;
 

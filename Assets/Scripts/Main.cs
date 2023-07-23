@@ -11,14 +11,13 @@ public class Main : DSingleton<Main>
     private Dictionary<int, string> avatar_id_dic = new Dictionary<int, string>();
     private bool menuIsDone;
     public static bool XrKeydownIndexBool = true;
-    public List<Vector3> EyeTrackingDirectionAdjustments = new();
+
+    public List<Vector3> EyeTrackingDirectionAdjustments;
     [System.Serializable]
     public class EyeTrackingDirectionAdjustmentsSavedata
     {
         public List<Vector3> eyeTrackingDirectionAdjustments;
     }
-
-
 
     private GameObject leftHandController;
     private GameObject rightHandController;
