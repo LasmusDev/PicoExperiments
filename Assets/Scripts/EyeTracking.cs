@@ -1,19 +1,14 @@
-﻿using System.Net.WebSockets;
-using System.Net;
-using DG.Tweening;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.XR.PXR;
 using UnityEngine;
-using UnityEngine.XR;
+using Unity.XR.PXR;
 
 public class EyeTracking : MonoBehaviour
 {
-    private Main main; // Main singleton
-
-    // Positions & Targets
+    // Positions and targets
     private Transform gazePoint;
-    public bool ShowGazePoint = true;
+    private Transform xrOrigin;
+    public bool showGazePoint = true;
 
     // Internals
     private Matrix4x4 matrix;
@@ -24,10 +19,9 @@ public class EyeTracking : MonoBehaviour
 
     void Start()
     {
-        main = DSingleton<Main>.Instance;
         gazePoint = GameObject.Find("gazePoint").transform;
-        SaveLoadCalibration saveLoadCalibration = gameObject.AddComponent<SaveLoadCalibration>();
-        saveLoadCalibration.LoadEyetrackingCalibration();
+        xrOrigin = GameObject.Find("XR Origin").transform;
+        Main.Instance.LoadEyetrackingCalibration();
         StartCoroutine(EyeRaycast(0.01f)); // default: 0.04 sec. = 24 FPS
     }
 
@@ -36,14 +30,19 @@ public class EyeTracking : MonoBehaviour
         while (true)
         {
 #if !UNITY_EDITOR
-            PXR_EyeTracking.GetHeadPosMatrix(out matrix);
-            PXR_EyeTracking.GetCombineEyeGazePoint(out Vector3 Origin);
-            PXR_EyeTracking.GetCombineEyeGazeVector(out Vector3 Direction);
+            // PXR_EyeTracking.GetHeadPosMatrix(out matrix);
+            if (Camera.main)
+            {
+                matrix = Matrix4x4.TRS(Camera.main.transform.position, Camera.main.transform.rotation, Vector3.one);
+            }
+            
+            PXR_EyeTracking.GetCombineEyeGazePoint(out Vector3 origin);
+            PXR_EyeTracking.GetCombineEyeGazeVector(out Vector3 direction);
 
             // Find Adjustment Index
             var positionIndex = 0; // default position (center)
-            var gazeVec = Origin + Direction;
-            var forwardPt = Origin + Vector3.forward;
+            var gazeVec = origin + direction;
+            var forwardPt = origin + Vector3.forward;
             var gazeDistance = (gazeVec - forwardPt).magnitude;
             if (gazeDistance > 0.25f)
             {
@@ -57,26 +56,31 @@ public class EyeTracking : MonoBehaviour
                     positionIndex = 4;
             }
             
-            var DirectionAdjusted = Direction;
-            if (main.EyeTrackingDirectionAdjustments.Count > 0)
+            var directionAdjusted = direction;
+            if (Main.Instance.EyeTrackingDirectionAdjustments.Count > 0)
             {
-                DirectionAdjusted += main.EyeTrackingDirectionAdjustments[positionIndex];
+                directionAdjusted += Main.Instance.EyeTrackingDirectionAdjustments[positionIndex];
             }
 
-            var OriginOffset = matrix.MultiplyPoint(Origin);
-            var DirectionOffset = matrix.MultiplyVector(DirectionAdjusted);
+            var originOffset = matrix.MultiplyPoint(origin);
+            var directionOffset = matrix.MultiplyVector(directionAdjusted);
 
 
             RaycastHit hit;
-            Ray ray = new Ray(OriginOffset, DirectionOffset);
-            if (Physics.Raycast(ray, out hit, 20))
+            Ray ray = new Ray(originOffset, directionOffset);
+
+            // Everything except layer 2 (Raycast Ignore)
+            int layer = 2;
+            int layerMask = 1 << layer;
+            layerMask = ~layerMask;
+
+            if (Physics.Raycast(ray, out hit, 20, layerMask))
             {
-                if (ShowGazePoint && gazePoint != null)
+                if (showGazePoint && gazePoint != null)
                 {
                     gazePoint.gameObject.SetActive(true);
                     gazePoint.transform.position = hit.point;
-                    Debug.Log($"TW: gaze dot position {gazePoint.transform.position.ToString()} name {hit.transform.name.ToString()}");
-                    Debug.Log("TW: hit distance " + hit.distance.ToString());
+                    Debug.Log($"TW: gaze dot position {gazePoint.transform.position.ToString()}\n name {hit.transform.name.ToString()}\n TW: hit distance {hit.distance.ToString()} \n TW: xr origin {xrOrigin.position}");
                 }
                 else
                 {
@@ -88,7 +92,7 @@ public class EyeTracking : MonoBehaviour
                 gazePoint.gameObject.SetActive(false);
             }
             // Invoke logging event
-            OnEyeTrackingEvent?.Invoke(OriginOffset, DirectionOffset, hit);
+            OnEyeTrackingEvent?.Invoke(originOffset, directionOffset, hit);
 #endif
             yield return new WaitForSeconds(steptime);
         }

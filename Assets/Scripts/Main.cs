@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
-using TMPro;
 
 public class Main : DSingleton<Main>
 {
     private Dictionary<int, string> avatar_id_dic = new Dictionary<int, string>();
     private bool menuIsDone;
+    private bool triggerActive;
     public static bool XrKeydownIndexBool = true;
+    private GameObject magnifierGo;
 
     public List<Vector3> EyeTrackingDirectionAdjustments;
     [System.Serializable]
@@ -26,6 +26,11 @@ public class Main : DSingleton<Main>
     protected override void Awake()
     {
         base.Awake();
+        magnifierGo = GameObject.Find("Magnifier");
+        if (magnifierGo != null)
+        {
+            magnifierGo.SetActive(false);
+        }
     }
 
     void Update()
@@ -42,48 +47,13 @@ public class Main : DSingleton<Main>
                 else
                     ChangeScene(0);
             }
-        }
-    }
-
-    public void openPackage(string pkgName)
-    {
-        using (AndroidJavaClass jcPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
-        {
-            using (AndroidJavaObject joActivity = jcPlayer.GetStatic<AndroidJavaObject>("currentActivity"))
+            if (((Input.GetKey(KeyCode.Escape) || (InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerActive) && triggerActive) || (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerActive) && triggerActive))) && SceneManager.GetSceneByBuildIndex(0) != SceneManager.GetActiveScene())
             {
-                using (AndroidJavaObject joPackageManager = joActivity.Call<AndroidJavaObject>("getPackageManager"))
+                if (magnifierGo != null)
                 {
-                    using (AndroidJavaObject joIntent = joPackageManager.Call<AndroidJavaObject>("getLaunchIntentForPackage", pkgName))
-                    {
-                        if (null != joIntent)
-                        {
-                            joActivity.Call("startActivity", joIntent);
-                        }
-                    }
+                    magnifierGo.SetActive(true);
                 }
             }
-        }
-    }
-    public bool XR_GetKeyDown(XRNode node, InputFeatureUsage<bool> usage)
-    {
-        InputDevice device = InputDevices.GetDeviceAtXRNode(node);
-        bool isDone;
-        if (device.TryGetFeatureValue(usage, out isDone) && isDone)
-        {
-            if (XrKeydownIndexBool)
-            {
-                XrKeydownIndexBool = false;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            XrKeydownIndexBool = true;
-            return false;
         }
     }
     public static void ChangeScene(string sceneName)
@@ -96,4 +66,54 @@ public class Main : DSingleton<Main>
         Debug.Log($"Changing scene to {sceneId.ToString()}");
         SceneManager.LoadScene(sceneId, LoadSceneMode.Single);
     }
+    public void SaveEyetrackingCalibration(string savefile = "et_calibration_settings.json")
+    {
+        string configPath = Application.persistentDataPath + "/Config/";
+        if (!Directory.Exists(configPath)) Directory.CreateDirectory(configPath);
+        string path = configPath + savefile;
+
+        Main.EyeTrackingDirectionAdjustmentsSavedata data = new Main.EyeTrackingDirectionAdjustmentsSavedata();
+        data.eyeTrackingDirectionAdjustments = Main.Instance.EyeTrackingDirectionAdjustments;
+
+        string json = JsonUtility.ToJson(data);
+
+        try
+        {
+            File.WriteAllText(path, json);
+            ChangeStatusMessage($"Saving calibration data successful");
+        }
+        catch (System.Exception e)
+        {
+            ChangeStatusMessage($"Saving calibration data error {e}");
+        }
+    }
+
+    public void LoadEyetrackingCalibration(string savefile = "et_calibration_settings.json")
+    {
+        string configPath = Application.persistentDataPath + "/Config/" + savefile;
+        try
+        {
+            string json = File.ReadAllText(configPath);
+            Main.EyeTrackingDirectionAdjustmentsSavedata data = new Main.EyeTrackingDirectionAdjustmentsSavedata();
+            data = JsonUtility.FromJson<Main.EyeTrackingDirectionAdjustmentsSavedata>(json);
+            print(data.eyeTrackingDirectionAdjustments.ToString());
+            foreach (var item in data.eyeTrackingDirectionAdjustments)
+            {
+                Main.Instance.EyeTrackingDirectionAdjustments.Add(item);
+                print(item);
+            }
+
+            ChangeStatusMessage($"Loading calibration data successful");
+        }
+        catch (System.Exception e)
+        {
+            ChangeStatusMessage($"Loading calibration data error:\n {e}");
+        }
+    }
+    public void ChangeStatusMessage(string statusMsg)
+    {
+        print(statusMsg);
+    }
+
+    public void TestStatus() => ChangeStatusMessage("Test");
 }

@@ -87,7 +87,7 @@ public class EyeTrackingCalibration : MonoBehaviour
                     Debug.Log("Calibration completed!");
                     calibrate = false;
                     completed.SetActive(true);
-                    GetComponent<SaveLoadCalibration>().SaveEyetrackingCalibration();
+                    Main.Instance.SaveEyetrackingCalibration();
                     StartCoroutine(GoMain());
                 }
             }

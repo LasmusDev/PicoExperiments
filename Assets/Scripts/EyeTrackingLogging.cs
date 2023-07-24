@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
@@ -22,7 +20,7 @@ public class EyeTrackingLogging : MonoBehaviour
     };
     private int flushCounter = 0;
 
-    void Start()
+    void Awake()
     {
         EyeTracking et = GetComponent<EyeTracking>();
         StartLogging();
@@ -70,7 +68,7 @@ public class EyeTrackingLogging : MonoBehaviour
     {
         if (logging)
         {
-            Debug.LogWarning("Logging was on when StartLogging was called. No new log was started.");
+            Debug.LogWarning("ET Logging was on when StartLogging was called. No new log was started.");
             return;
         }
 
