@@ -26,6 +26,9 @@ public class Main : DSingleton<Main>
     protected override void Awake()
     {
         base.Awake();
+    }
+    void Start()
+    {
         magnifierGo = GameObject.Find("Magnifier");
         if (magnifierGo != null)
         {
@@ -53,6 +56,10 @@ public class Main : DSingleton<Main>
                 {
                     magnifierGo.SetActive(true);
                 }
+            }
+            else
+            {
+                magnifierGo.SetActive(false);
             }
         }
     }

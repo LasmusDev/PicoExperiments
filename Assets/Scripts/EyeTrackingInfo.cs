@@ -7,7 +7,7 @@ public class EyeTrackingInfo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        headerText = GameObject.Find("Gaze Info Header Text").GetComponent<Text>();
+        if (headerText == null) headerText = GameObject.Find("Gaze Info Header Text").GetComponent<Text>();
         EyeTracking et = GameObject.Find("EyeTracking").GetComponent<EyeTracking>();
         et.OnEyeTrackingEvent += SetInfoText;
     }
