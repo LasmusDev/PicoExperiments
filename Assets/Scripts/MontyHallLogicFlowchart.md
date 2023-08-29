@@ -3,12 +3,11 @@
 flowchart TD;
     StartGame --> InitializePrice
     InitializePrice --> ChoiceUi
-    ChoiceUi --> FirstChoice{FirstChoice?}
-    FirstChoice -->|Yes| RevealUi
-    FirstChoice -->|No| SwitchUi
-    RevealUi --> SwitchUi
-    SwitchUi -->|Yes| ChoiceUi
-    SwitchUi -->|No| EvalUi
+    ChoiceUi --> MontyRevealsDoor
+    MontyRevealsDoor --> ChangeDecision{Change?}
+    ChangeDecision -->|No| EvalUi
+    ChangeDecision -->|Yes| SwitchUi
+    SwitchUi --> ChangeDecision
     EvalUi -->|Repeat| StartGame
-    EvalUi --> End
+    EvalUi -->|Exit| End
 ```

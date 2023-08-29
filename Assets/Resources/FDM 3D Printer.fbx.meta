@@ -1,0 +1,574 @@
+fileFormatVersion: 2
+guid: 7897c1bddc5939f4290b28e4a79f7de6
+ModelImporter:
+  serializedVersion: 21300
+  internalIDToNameTable:
+  - first:
+      74: 5001601729808850313
+    second: build plate|Action
+  - first:
+      74: -720453347142837865
+    second: build plate|BezierCurve.001Action
+  - first:
+      74: 6949021491246420040
+    second: build plate|BezierCurve.004Action
+  - first:
+      74: -6920500253566357725
+    second: build plate|Cube.004Action
+  - first:
+      74: 2296117534600039814
+    second: build plate|Cube.008Action
+  - first:
+      74: 5039358460677046845
+    second: build plate|Cube.017Action
+  - first:
+      74: -7796047244756591585
+    second: build plate|CubeAction
+  - first:
+      74: 229747845749879051
+    second: build plate|Cylinder.006Action
+  - first:
+      74: 9192062778137465369
+    second: build plate|Cylinder.009Action
+  - first:
+      74: -8431734866592274569
+    second: build plate|SuzanneAction.001
+  - first:
+      74: -9216901552903274293
+    second: FDM 3D printer|Action
+  - first:
+      74: 3737457541289274953
+    second: FDM 3D printer|BezierCurve.001Action
+  - first:
+      74: -4344578167265561308
+    second: FDM 3D printer|BezierCurve.004Action
+  - first:
+      74: 6746093987635629231
+    second: FDM 3D printer|Cube.004Action
+  - first:
+      74: -6639957934444167218
+    second: FDM 3D printer|Cube.008Action
+  - first:
+      74: -5128084874385358199
+    second: FDM 3D printer|Cube.017Action
+  - first:
+      74: 8485162308599125202
+    second: FDM 3D printer|CubeAction
+  - first:
+      74: 6809923277629294771
+    second: FDM 3D printer|Cylinder.006Action
+  - first:
+      74: 8056966651490216396
+    second: FDM 3D printer|Cylinder.009Action
+  - first:
+      74: -8577639918780364899
+    second: FDM 3D printer|SuzanneAction.001
+  - first:
+      74: -4652771812074924667
+    second: Filament 1_input|Action
+  - first:
+      74: -4328019976619723925
+    second: Filament 1_input|BezierCurve.001Action
+  - first:
+      74: 7139809168716938873
+    second: Filament 1_input|BezierCurve.004Action
+  - first:
+      74: -8302110398606459413
+    second: Filament 1_input|Cube.004Action
+  - first:
+      74: -6332154041446396045
+    second: Filament 1_input|Cube.008Action
+  - first:
+      74: -1443325329134131755
+    second: Filament 1_input|Cube.017Action
+  - first:
+      74: 7473114687760005952
+    second: Filament 1_input|CubeAction
+  - first:
+      74: -2683047167978435122
+    second: Filament 1_input|Cylinder.006Action
+  - first:
+      74: -3032909012626302689
+    second: Filament 1_input|Cylinder.009Action
+  - first:
+      74: 7883138054479316131
+    second: Filament 1_input|SuzanneAction.001
+  - first:
+      74: -4360447053222930531
+    second: Filament 1_spool|Action
+  - first:
+      74: -5281339810246740804
+    second: Filament 1_spool|BezierCurve.001Action
+  - first:
+      74: 6305953705823197428
+    second: Filament 1_spool|BezierCurve.004Action
+  - first:
+      74: -1531972397745350227
+    second: Filament 1_spool|Cube.004Action
+  - first:
+      74: 4921193717836397519
+    second: Filament 1_spool|Cube.008Action
+  - first:
+      74: -4344676024954306194
+    second: Filament 1_spool|Cube.017Action
+  - first:
+      74: -951483725575088320
+    second: Filament 1_spool|CubeAction
+  - first:
+      74: -3551997415653418830
+    second: Filament 1_spool|Cylinder.006Action
+  - first:
+      74: 8576669325521327754
+    second: Filament 1_spool|Cylinder.009Action
+  - first:
+      74: 4419715081159229109
+    second: Filament 1_spool|SuzanneAction.001
+  - first:
+      74: -6424139026213517537
+    second: Filament 3_spool|Action
+  - first:
+      74: 6247492262501587078
+    second: Filament 3_spool|BezierCurve.001Action
+  - first:
+      74: 9051218486810729891
+    second: Filament 3_spool|BezierCurve.004Action
+  - first:
+      74: 2636205144470303891
+    second: Filament 3_spool|Cube.004Action
+  - first:
+      74: -8012237185512566150
+    second: Filament 3_spool|Cube.008Action
+  - first:
+      74: 4590724083354132298
+    second: Filament 3_spool|Cube.017Action
+  - first:
+      74: -5634925165034179192
+    second: Filament 3_spool|CubeAction
+  - first:
+      74: -6634479466497791125
+    second: Filament 3_spool|Cylinder.006Action
+  - first:
+      74: 5594628401688791613
+    second: Filament 3_spool|Cylinder.009Action
+  - first:
+      74: 1299047977442951531
+    second: Filament 3_spool|SuzanneAction.001
+  - first:
+      74: 3556913441117967611
+    second: Filament 4_input|Action
+  - first:
+      74: 3185015812658015689
+    second: Filament 4_input|BezierCurve.001Action
+  - first:
+      74: -1026332756563847456
+    second: Filament 4_input|BezierCurve.004Action
+  - first:
+      74: 5146594565320589136
+    second: Filament 4_input|Cube.004Action
+  - first:
+      74: 2683524920331409046
+    second: Filament 4_input|Cube.008Action
+  - first:
+      74: -6355035698011979846
+    second: Filament 4_input|Cube.017Action
+  - first:
+      74: 8497563780526777929
+    second: Filament 4_input|CubeAction
+  - first:
+      74: 6209419511954579070
+    second: Filament 4_input|Cylinder.006Action
+  - first:
+      74: -3772188996363240800
+    second: Filament 4_input|Cylinder.009Action
+  - first:
+      74: -2863369877609945575
+    second: Filament 4_input|SuzanneAction.001
+  - first:
+      74: -2751306067280840358
+    second: Filament 4_spool|Action
+  - first:
+      74: 8271454709506705983
+    second: Filament 4_spool|BezierCurve.001Action
+  - first:
+      74: -4138404000184217372
+    second: Filament 4_spool|BezierCurve.004Action
+  - first:
+      74: 5908984855621470843
+    second: Filament 4_spool|Cube.004Action
+  - first:
+      74: 2878855177415957163
+    second: Filament 4_spool|Cube.008Action
+  - first:
+      74: 3767575855664690600
+    second: Filament 4_spool|Cube.017Action
+  - first:
+      74: -2186423843463696071
+    second: Filament 4_spool|CubeAction
+  - first:
+      74: -744606852964964899
+    second: Filament 4_spool|Cylinder.006Action
+  - first:
+      74: 2120579438955398392
+    second: Filament 4_spool|Cylinder.009Action
+  - first:
+      74: -1427301785398577736
+    second: Filament 4_spool|SuzanneAction.001
+  - first:
+      74: 1943623842146376462
+    second: Supporting beam|Action
+  - first:
+      74: 3542460066404785961
+    second: Supporting beam|BezierCurve.001Action
+  - first:
+      74: 8746407356612274505
+    second: Supporting beam|BezierCurve.004Action
+  - first:
+      74: -388373988214832781
+    second: Supporting beam|Cube.004Action
+  - first:
+      74: 5486812320070770008
+    second: Supporting beam|Cube.008Action
+  - first:
+      74: 1488456270891342733
+    second: Supporting beam|Cube.017Action
+  - first:
+      74: -4605169401696731295
+    second: Supporting beam|CubeAction
+  - first:
+      74: -2335322205464997440
+    second: Supporting beam|Cylinder.006Action
+  - first:
+      74: -5064103887339670799
+    second: Supporting beam|Cylinder.009Action
+  - first:
+      74: -896137878085141476
+    second: Supporting beam|SuzanneAction.001
+  - first:
+      74: -1399764391226958327
+    second: Suzanne.001|Action
+  - first:
+      74: 6168411476441106868
+    second: Suzanne.001|BezierCurve.001Action
+  - first:
+      74: -1599047632440786166
+    second: Suzanne.001|BezierCurve.004Action
+  - first:
+      74: 171782711476540450
+    second: Suzanne.001|Cube.004Action
+  - first:
+      74: 6599979454648165613
+    second: Suzanne.001|Cube.008Action
+  - first:
+      74: -3911047848056406793
+    second: Suzanne.001|Cube.017Action
+  - first:
+      74: 6656886910311287218
+    second: Suzanne.001|CubeAction
+  - first:
+      74: 7980841836935225799
+    second: Suzanne.001|Cylinder.006Action
+  - first:
+      74: 2725537278037711838
+    second: Suzanne.001|Cylinder.009Action
+  - first:
+      74: 3580344827842463073
+    second: Suzanne.001|SuzanneAction.001
+  - first:
+      74: -2414609688708135679
+    second: nozzle |Action
+  - first:
+      74: -4880109115048724488
+    second: nozzle |BezierCurve.001Action
+  - first:
+      74: 6519122691944585521
+    second: nozzle |BezierCurve.004Action
+  - first:
+      74: -4573546586035015358
+    second: nozzle |Cube.004Action
+  - first:
+      74: 3385434478580734135
+    second: nozzle |Cube.008Action
+  - first:
+      74: 7355976625189913451
+    second: nozzle |Cube.017Action
+  - first:
+      74: -6848587405424189292
+    second: nozzle |CubeAction
+  - first:
+      74: -6390730049601373927
+    second: nozzle |Cylinder.006Action
+  - first:
+      74: -7581379836894265739
+    second: nozzle |Cylinder.009Action
+  - first:
+      74: 6441020439090820535
+    second: nozzle |SuzanneAction.001
+  - first:
+      74: -8241872898432253366
+    second: Filament 1_inlet|Action
+  - first:
+      74: 2248480472477575690
+    second: Filament 1_inlet|BezierCurve.001Action
+  - first:
+      74: 7448560000134389780
+    second: Filament 1_inlet|BezierCurve.004Action
+  - first:
+      74: 2372146341293837978
+    second: Filament 1_inlet|Cube.004Action
+  - first:
+      74: 8595672983624441605
+    second: Filament 1_inlet|Cube.008Action
+  - first:
+      74: -4806208980581602205
+    second: Filament 1_inlet|Cube.017Action
+  - first:
+      74: -1493182803284872137
+    second: Filament 1_inlet|CubeAction
+  - first:
+      74: 154494909656352338
+    second: Filament 1_inlet|Cylinder.006Action
+  - first:
+      74: 6398408555844508069
+    second: Filament 1_inlet|Cylinder.009Action
+  - first:
+      74: 4006495845792316072
+    second: Filament 1_inlet|SuzanneAction.001
+  - first:
+      74: 2391711349116240681
+    second: Filament 4_inlet|Action
+  - first:
+      74: -8444218204032380829
+    second: Filament 4_inlet|BezierCurve.001Action
+  - first:
+      74: 4945887719075701517
+    second: Filament 4_inlet|BezierCurve.004Action
+  - first:
+      74: 4142293428859513465
+    second: Filament 4_inlet|Cube.004Action
+  - first:
+      74: -490053747423731834
+    second: Filament 4_inlet|Cube.008Action
+  - first:
+      74: 7712933791660301986
+    second: Filament 4_inlet|Cube.017Action
+  - first:
+      74: -4924487634998888635
+    second: Filament 4_inlet|CubeAction
+  - first:
+      74: 7220245393970655906
+    second: Filament 4_inlet|Cylinder.006Action
+  - first:
+      74: -9140022952662211329
+    second: Filament 4_inlet|Cylinder.009Action
+  - first:
+      74: -7572699458656776856
+    second: Filament 4_inlet|SuzanneAction.001
+  - first:
+      74: -7607708170264676110
+    second: build plate|Action.001
+  - first:
+      74: -163107032613009719
+    second: build plate|Action.002
+  - first:
+      74: 2647459742402685738
+    second: build plate|Action.003
+  - first:
+      74: 4101030677854326494
+    second: FDM 3D printer|Action.001
+  - first:
+      74: 8909799331346940622
+    second: FDM 3D printer|Action.002
+  - first:
+      74: 591059785001256539
+    second: FDM 3D printer|Action.003
+  - first:
+      74: -7969461859597837495
+    second: Filament 1_input|Action.001
+  - first:
+      74: -2644710896763915340
+    second: Filament 1_input|Action.002
+  - first:
+      74: 6502849364072454987
+    second: Filament 1_input|Action.003
+  - first:
+      74: 7654908187165213385
+    second: Filament 1_spool|Action.001
+  - first:
+      74: -9047092729720476258
+    second: Filament 1_spool|Action.002
+  - first:
+      74: -6728852302901377903
+    second: Filament 1_spool|Action.003
+  - first:
+      74: 5084970199754572971
+    second: Filament 3_spool|Action.001
+  - first:
+      74: 6537806370355941805
+    second: Filament 3_spool|Action.002
+  - first:
+      74: 5559472112060996451
+    second: Filament 3_spool|Action.003
+  - first:
+      74: 794237550712979094
+    second: Filament 4_input|Action.001
+  - first:
+      74: 5437687787551208344
+    second: Filament 4_input|Action.002
+  - first:
+      74: -469030265183858789
+    second: Filament 4_input|Action.003
+  - first:
+      74: -5448938298257427918
+    second: Filament 4_spool|Action.001
+  - first:
+      74: -5153690706048810093
+    second: Filament 4_spool|Action.002
+  - first:
+      74: 4750586630953445436
+    second: Filament 4_spool|Action.003
+  - first:
+      74: -4122542453474451511
+    second: Supporting beam|Action.001
+  - first:
+      74: 3005853332898691715
+    second: Supporting beam|Action.002
+  - first:
+      74: -7354733657643348727
+    second: Supporting beam|Action.003
+  - first:
+      74: -6767068566082715481
+    second: Suzanne.001|Action.001
+  - first:
+      74: 8505167004822555182
+    second: Suzanne.001|Action.002
+  - first:
+      74: 1684263028467904814
+    second: Suzanne.001|Action.003
+  - first:
+      74: 263319075332004808
+    second: nozzle |Action.001
+  - first:
+      74: -840927851773792026
+    second: nozzle |Action.002
+  - first:
+      74: -4629761460712906259
+    second: nozzle |Action.003
+  - first:
+      74: 5996189414793230151
+    second: Filament 1_inlet|Action.001
+  - first:
+      74: -2498242973758529908
+    second: Filament 1_inlet|Action.002
+  - first:
+      74: 3848886666134937124
+    second: Filament 1_inlet|Action.003
+  - first:
+      74: 9043579131449085000
+    second: Filament 4_inlet|Action.001
+  - first:
+      74: -206927021194879593
+    second: Filament 4_inlet|Action.002
+  - first:
+      74: 6541988815938059813
+    second: Filament 4_inlet|Action.003
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

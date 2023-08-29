@@ -8,9 +8,7 @@ public class Main : DSingleton<Main>
 {
     private Dictionary<int, string> avatar_id_dic = new Dictionary<int, string>();
     private bool menuIsDone;
-    private bool triggerActive;
     public static bool XrKeydownIndexBool = true;
-    private GameObject magnifierGo;
 
     public List<Vector3> EyeTrackingDirectionAdjustments;
     [System.Serializable]
@@ -27,14 +25,7 @@ public class Main : DSingleton<Main>
     {
         base.Awake();
     }
-    void Start()
-    {
-        magnifierGo = GameObject.Find("Magnifier");
-        if (magnifierGo != null)
-        {
-            magnifierGo.SetActive(false);
-        }
-    }
+
 
     void Update()
     {
@@ -50,18 +41,8 @@ public class Main : DSingleton<Main>
                 else
                     ChangeScene(0);
             }
-            if (((Input.GetKey(KeyCode.Escape) || (InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerActive) && triggerActive) || (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerActive) && triggerActive))) && SceneManager.GetSceneByBuildIndex(0) != SceneManager.GetActiveScene())
-            {
-                if (magnifierGo != null)
-                {
-                    magnifierGo.SetActive(true);
-                }
-            }
-            else
-            {
-                magnifierGo.SetActive(false);
-            }
         }
+
     }
     public static void ChangeScene(string sceneName)
     {

@@ -17,15 +17,18 @@ public class CsqQuestionnaire : MonoBehaviour
         public string headerText;
         public string modalText;
         public string buttonOption;
+        public string lowText;
+        public string mediumText;
+        public string highText;
     }
     int currentStage = 0;
     List<Stage> stageList = new List<Stage>() {
-        new Stage() { headerText = "Nausea A", modalText = "Do you experience nausea (e.g., stomach pain, acid reflux, or tension to vomit)?", buttonOption = "next"},
-        new Stage() { headerText = "Nausea B", modalText = "Do you experience dizziness (e.g., light-headedness or spinning feeling)?", buttonOption = "next"},
-        new Stage() { headerText = "Vestibular A", modalText = "Do you experience disorientation (e.g., spatial confusion or vertigo)?", buttonOption = "next"},
-        new Stage() { headerText = "Vestibular B", modalText = "Do you experience postural instability (i.e., imbalance)?", buttonOption = "next"},
-        new Stage() { headerText = "Oculomotor A", modalText = "Do you experience a visually induced fatigue (e.g., feeling of tiredness or sleepiness)?", buttonOption = "next"},
-        new Stage() { headerText = "Oculomotor B", modalText = "Do you experience a visually induced discomfort (e.g., eyestrain, blurred vision, or headache)?", buttonOption = "exit"}
+        new Stage() { headerText = "Nausea A", modalText = "Do you experience nausea (e.g., stomach pain, acid reflux, or tension to vomit)?", lowText="Absent Feeling", mediumText="Moderate Feeling", highText="Extreme Feeling", buttonOption = "next"},
+        new Stage() { headerText = "Nausea B", modalText = "Do you experience dizziness (e.g., light-headedness or spinning feeling)?", lowText="Absent Feeling", mediumText="Moderate Feeling", highText="Extreme Feeling", buttonOption = "next"},
+        new Stage() { headerText = "Vestibular A", modalText = "Do you experience disorientation (e.g., spatial confusion or vertigo)?", lowText="Absent Feeling", mediumText="Moderate Feeling", highText="Extreme Feeling", buttonOption = "next"},
+        new Stage() { headerText = "Vestibular B", modalText = "Do you experience postural instability (i.e., imbalance)?", lowText="Absent Feeling", mediumText="Moderate Feeling", highText="Extreme Feeling", buttonOption = "next"},
+        new Stage() { headerText = "Oculomotor A", modalText = "Do you experience a visually induced fatigue (e.g., feeling of tiredness or sleepiness)?", lowText="Absent Feeling", mediumText="Moderate Feeling", highText="Extreme Feeling", buttonOption = "next"},
+        new Stage() { headerText = "Oculomotor B", modalText = "Do you experience a visually induced discomfort (e.g., eyestrain, blurred vision, or headache)?", lowText="Absent Feeling", mediumText="Moderate Feeling", highText="Extreme Feeling", buttonOption = "exit"}
     };
     // Logging
     private bool logging = false;
@@ -85,6 +88,9 @@ public class CsqQuestionnaire : MonoBehaviour
         stageGo.SetActive(true);
         stageGo.transform.Find("Header Text").GetComponent<TMP_Text>().text = stage.headerText;
         stageGo.transform.Find("Modal Text").GetComponent<TMP_Text>().text = stage.modalText;
+        stageGo.transform.Find("UI MinMaxSlider/Low Text").GetComponent<TMP_Text>(). text = stage.lowText;
+        stageGo.transform.Find("UI MinMaxSlider/Medium Text").GetComponent<TMP_Text>(). text = stage.mediumText;
+        stageGo.transform.Find("UI MinMaxSlider/High Text").GetComponent<TMP_Text>(). text = stage.highText;
         stageGo.transform.Find("Buttons/Submit").GetComponent<Button>().onClick.AddListener(() => SaveStage(stage));
     }
 
