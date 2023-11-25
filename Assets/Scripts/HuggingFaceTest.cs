@@ -9,13 +9,6 @@ public class HuggingFaceTest : MonoBehaviour
     void Start()
     {
         Query();
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     // Make a call to the API
