@@ -8,22 +8,34 @@ public class DebugMoveBackAndForth : MonoBehaviour
     [Range(0.1f, 2f)]
     public float speed;
     public bool forward;
+    public float distanceTravelled;
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine(Walk());
     }
 
-    // Update is called once per frame
-    void Update()
+   
+    public IEnumerator Walk()
     {
-        if (forward)
+        yield return new WaitForSeconds(1f);
+        while (true)
         {
-            this.transform.position += this.transform.forward * Mathf.Sin(Time.deltaTime) * speed;
-        } else
-        {
-            this.transform.position -= this.transform.forward * Mathf.Sin(Time.deltaTime) * speed;
+            if (forward)
+            {
+                this.transform.position += this.transform.forward * Mathf.Sin(Time.deltaTime) * speed;
+            }
+            else
+            {
+                this.transform.position -= this.transform.forward * Mathf.Sin(Time.deltaTime) * speed;
+            }
+            distanceTravelled += Mathf.Sin(Time.deltaTime) * speed;
+            if (distanceTravelled > 8)
+            {
+                forward = !forward;
+                distanceTravelled = 0;
+            }
+            yield return null;
         }
-        
     }
 }
