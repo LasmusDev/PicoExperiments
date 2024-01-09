@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class IK_Feet : MonoBehaviour
 {
-    public LayerMask groundLayer;
     public Transform body;
     public IK_Feet otherFoot;
     public bool autoAdjustMovementParameters = true;
@@ -29,7 +28,7 @@ public class IK_Feet : MonoBehaviour
     void Update()
     {
         transform.position = _currentPos + footPosOffset;
-        transform.rotation = Quaternion.LookRotation(_currentNormal, body.forward * -1) *Quaternion.Euler(footRotOffset);
+        transform.rotation = Quaternion.LookRotation(_currentNormal, body.forward) *Quaternion.Euler(footRotOffset);
         if (autoAdjustMovementParameters)
         {
 
@@ -44,14 +43,14 @@ public class IK_Feet : MonoBehaviour
         
 
         Ray groundRay = new Ray(body.position + body.right * _footSpacing + Vector3.up * 2, Vector3.down);
-        if(!otherFoot.IsMoving() && !IsMoving() && Physics.Raycast(groundRay, out RaycastHit hit, 10, groundLayer.value))
+        if(!otherFoot.IsMoving() && !IsMoving() && Physics.Raycast(groundRay, out RaycastHit hit, 10))
         {
             if(Vector3.Distance(_nextPos, hit.point) > stepDistance)
             {
                 _stepProgressLerp = 0;
                 //Determine if moving forwards or backwards
                 int direction = body.InverseTransformPoint(hit.point).z > body.InverseTransformPoint(_nextPos).z ? 1 : -1;
-                _nextPos = hit.point + body.forward * direction * stepLength + footPosOffset;
+                _nextPos = hit.point + body.forward * direction * stepLength + footPosOffset + (this.transform.forward * 0.12f);
                 _nextNormal = hit.normal;
             }
         }
