@@ -38,7 +38,7 @@ public class ReadyPlayerMeRigCreatorEditor : Editor
         PaintLegs(creator);       
         if (GUILayout.Button("AttachToXR"))
         {
-            creator.AttachToPico();
+            creator.AttachToOpenXR();
         }
     }
 

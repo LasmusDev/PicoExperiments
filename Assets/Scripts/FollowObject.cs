@@ -9,6 +9,8 @@ public class FollowObject : MonoBehaviour
     public bool autoCalcOffset;
     public Vector3 positionOffset;
     public Vector3 rotationOffset;
+    public bool posFollow = true;
+    public bool rotFollow = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,12 +38,24 @@ public class FollowObject : MonoBehaviour
         }
         if(localSpace)
         {
-            this.transform.localPosition = transformToFollow.localPosition - positionOffset;
-            this.transform.localRotation = Quaternion.Euler(transformToFollow.localRotation.eulerAngles - rotationOffset);
+            if (posFollow)
+            {
+                this.transform.localPosition = transformToFollow.localPosition - positionOffset;
+            }
+            if (rotFollow)
+            {
+                this.transform.localRotation = Quaternion.Euler(transformToFollow.localRotation.eulerAngles - rotationOffset);
+            }
         } else
         {
-            this.transform.position = transformToFollow.position -positionOffset;
-            this.transform.rotation = Quaternion.Euler(transformToFollow.rotation.eulerAngles - rotationOffset);
+            if (posFollow)
+            {
+                this.transform.position = transformToFollow.position - positionOffset;
+            }
+            if (rotFollow)
+            {
+                this.transform.rotation = Quaternion.Euler(transformToFollow.rotation.eulerAngles - rotationOffset);
+            }
         }
     }
 }

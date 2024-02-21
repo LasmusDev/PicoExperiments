@@ -475,7 +475,7 @@ public class ReadyPlayerMeRigCreator : MonoBehaviour
         return data.root != null && data.mid != null && data.target != null && data.hint != null && data.tip != null;
     }
 
-    public void AttachToPico()
+    public void AttachToOpenXR()
     {
         FollowObject rightHand = rightArmConstraint.gameObject.GetComponent<FollowObject>();
         if (rightHand == null)
@@ -503,7 +503,7 @@ public class ReadyPlayerMeRigCreator : MonoBehaviour
         }
         bodyFollow.transformToFollow = Camera.main.transform;
         bodyFollow.positionOffset = headTransform.position - this.transform.position;
-
+        bodyFollow.rotFollow = false;
     }
     #endregion
 
